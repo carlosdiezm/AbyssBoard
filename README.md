@@ -42,6 +42,16 @@ actually notch, pintails actually pinch to a point, and each shape is rendered w
 a soft neon glow that matches the app's bioluminescent, "glowing up from the depths"
 theme.
 
+## 🛒 Where to buy
+
+Each recommendation comes with region-aware shopping links: **surf shops near
+you** (Google Maps), a **web search**, and **Amazon** for the recommended
+board's regional marketplace. The shopping region is guessed instantly from
+your browser's timezone (no permission prompt, no network call) and can be
+overridden manually from the dropdown next to the language switcher. These are
+always generic, live search links, not a hardcoded list of named shops — so
+they never go stale or point at businesses that no longer exist.
+
 ## 🌐 Multilingual
 
 Fully localised UI — **English, Español, Português and 日本語** — including every

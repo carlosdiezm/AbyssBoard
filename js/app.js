@@ -4,6 +4,7 @@
   var BD = window.BoardData;
   var R = window.Recommend;
   var I18N = window.I18N;
+  var Region = window.Region;
 
   function localizedOptions(ids, i18nPrefix) {
     return ids.map(function (id) {
@@ -155,6 +156,42 @@
       '<p class="board-desc">' + board.description + "</p>";
   }
 
+  // Generic search links only (Google Maps / Google Search / Amazon) - never
+  // named local shops, since we can't verify those exist or are still active.
+  function buildBuyLinksHtml(board) {
+    var country = Region.getCountry();
+    var query = I18N.t("buy.query", { board: board.name });
+    var mapsQuery = I18N.t("buy.mapsQuery");
+    var mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(mapsQuery);
+    var searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(query);
+    var amazonUrl = "https://www.amazon." + Region.amazonTld(country) + "/s?k=" + encodeURIComponent(query);
+    return (
+      '<div class="buy-links">' +
+      '<h4 class="buy-heading">' + I18N.t("buy.heading") + "</h4>" +
+      '<div class="buy-buttons">' +
+      '<a class="buy-btn" href="' + mapsUrl + '" target="_blank" rel="noopener noreferrer">' + I18N.t("buy.maps") + "</a>" +
+      '<a class="buy-btn" href="' + searchUrl + '" target="_blank" rel="noopener noreferrer">' + I18N.t("buy.search") + "</a>" +
+      '<a class="buy-btn" href="' + amazonUrl + '" target="_blank" rel="noopener noreferrer">' + I18N.t("buy.amazon") + "</a>" +
+      "</div>" +
+      '<p class="buy-disclaimer">' + I18N.t("buy.disclaimer") + "</p>" +
+      "</div>"
+    );
+  }
+
+  function populateRegionSelect() {
+    el.regionSelect.innerHTML = Region.COUNTRIES.map(function (c) {
+      return '<option value="' + c.code + '">' + c.name + "</option>";
+    }).join("");
+    el.regionSelect.value = Region.getCountry();
+  }
+
+  function bindRegionSelect() {
+    el.regionSelect.addEventListener("change", function () {
+      Region.setCountry(el.regionSelect.value);
+      update();
+    });
+  }
+
   function update() {
     var inputs = {
       heightCm: state.heightCm,
@@ -174,7 +211,10 @@
     if (result.materialNote) {
       el.primaryCard.insertAdjacentHTML("beforeend", '<p class="board-note">' + result.materialNote + "</p>");
     }
+    el.primaryCard.insertAdjacentHTML("beforeend", buildBuyLinksHtml(result.primary));
+
     renderBoardCard(el.altCard, result.alternative, "badge.alternative");
+    el.altCard.insertAdjacentHTML("beforeend", buildBuyLinksHtml(result.alternative));
 
     window.Silhouette.renderComparison(el.silhouetteContainer, {
       heightCm: state.heightCm,
@@ -261,6 +301,11 @@
     el.silhouetteContainer = q("silhouette-container");
     el.silhouettePersonLabel = q("silhouette-person-label");
     el.silhouetteBoardLabel = q("silhouette-board-label");
+    el.regionSelect = q("region-select");
+
+    Region.init(I18N.getLocale());
+    populateRegionSelect();
+    bindRegionSelect();
 
     applyStaticI18n();
     bindLangToggle();

@@ -124,6 +124,16 @@
       footer: {
         text: "Estimates only, based on widely-used surfboard volume and sizing guidelines (Guild-factor volume formula, typical length/width/thickness ratios per board type). Every shaper's outline differs — use this as a starting point and fine-tune with your local surf shop or shaper.",
         developedBy: "Developed by"
+      },
+      buy: {
+        heading: "Where to buy",
+        region: "Shopping region",
+        maps: "Surf shops near you",
+        search: "Search online",
+        amazon: "Amazon",
+        query: "{{board}} surfboard",
+        mapsQuery: "surf shop",
+        disclaimer: "Generic search links, not verified endorsements — availability, price and shipping vary by seller."
       }
     },
 
@@ -240,6 +250,16 @@
       footer: {
         text: "Solo son estimaciones, basadas en pautas de volumen y medidas de tablas ampliamente utilizadas (fórmula de volumen Guild-factor, proporciones típicas de largo/ancho/grosor según el tipo de tabla). El contorno de cada shaper es distinto — usa esto como punto de partida y afina los detalles con tu tienda de surf o shaper local.",
         developedBy: "Desarrollado por"
+      },
+      buy: {
+        heading: "Dónde comprar",
+        region: "Región de compra",
+        maps: "Tiendas de surf cerca de ti",
+        search: "Buscar online",
+        amazon: "Amazon",
+        query: "tabla de surf {{board}}",
+        mapsQuery: "tienda de surf",
+        disclaimer: "Enlaces de búsqueda genéricos, no son recomendaciones verificadas — la disponibilidad, el precio y el envío varían según la tienda."
       }
     },
 
@@ -356,6 +376,16 @@
       footer: {
         text: "Apenas estimativas, baseadas em diretrizes de volume e dimensionamento de pranchas amplamente utilizadas (fórmula de volume Guild-factor, proporções típicas de comprimento/largura/espessura por tipo de prancha). O contorno de cada shaper é diferente — use isto como ponto de partida e ajuste os detalhes com sua loja de surf ou shaper local.",
         developedBy: "Desenvolvido por"
+      },
+      buy: {
+        heading: "Onde comprar",
+        region: "Região de compra",
+        maps: "Lojas de surf perto de você",
+        search: "Buscar online",
+        amazon: "Amazon",
+        query: "prancha de surf {{board}}",
+        mapsQuery: "loja de surf",
+        disclaimer: "Links de busca genéricos, não são recomendações verificadas — disponibilidade, preço e frete variam por loja."
       }
     },
 
@@ -472,6 +502,16 @@
       footer: {
         text: "これはあくまで目安であり、広く使われているサーフボードの容量・サイズガイドライン(Guild-factorボリューム式、ボードタイプ別の一般的な長さ/幅/厚みの比率)に基づいています。シェイパーによってアウトラインは異なります — これを出発点とし、地元のサーフショップやシェイパーと相談して調整してください。",
         developedBy: "開発:"
+      },
+      buy: {
+        heading: "購入先",
+        region: "ショッピング地域",
+        maps: "近くのサーフショップ",
+        search: "オンラインで検索",
+        amazon: "Amazon",
+        query: "{{board}} サーフボード",
+        mapsQuery: "サーフショップ",
+        disclaimer: "これらは一般的な検索リンクであり、検証済みのおすすめではありません — 在庫・価格・配送は販売店により異なります。"
       }
     }
   };

@@ -99,7 +99,10 @@ a {
 }
 .header-toolbar {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
   margin-bottom: 14px;
 }
 .lang-toggle {
@@ -128,6 +131,32 @@ a {
   box-shadow: 0 0 12px rgba(63, 210, 255, 0.35) inset, 0 0 10px rgba(63, 210, 255, 0.25);
 }
 .lang-btn:hover {
+  color: var(--text-primary);
+}
+.region-picker {
+  display: inline-flex;
+}
+.region-select {
+  background: rgba(4, 14, 28, 0.7);
+  border: 1px solid var(--border-glow);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 160px;
+}
+.region-select:hover {
+  color: var(--text-primary);
+  border-color: var(--border-glow-strong);
+}
+.region-select:focus-visible {
+  outline: 2px solid var(--cyan-bright);
+  outline-offset: 1px;
+}
+.region-select option {
+  background: var(--bg-panel-solid);
   color: var(--text-primary);
 }
 .brand {
@@ -519,6 +548,53 @@ label, .group-label {
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   color: var(--teal);
+}
+
+/* ===== Buy links ===== */
+.buy-links {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-glow);
+}
+.buy-heading {
+  margin: 0 0 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+.buy-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.buy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-glow);
+  background: rgba(4, 14, 28, 0.6);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.buy-btn:hover,
+.buy-btn:focus-visible {
+  border-color: var(--cyan-bright);
+  color: var(--cyan-bright);
+  box-shadow: 0 0 12px rgba(63, 210, 255, 0.3);
+  transform: translateY(-1px);
+}
+.buy-disclaimer {
+  margin: 10px 0 0;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: var(--text-faint);
 }
 
 /* ===== Silhouette card ===== */
