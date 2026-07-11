@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AbyssBoard — Find Your Perfect Surfboard</title>
+<meta name="description" content="Get a personalised surfboard shape, length, width and volume recommendation based on your wave size, style, level and build — with a visual size comparison against your own silhouette.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23071427'/%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%2300f5ff' stroke-width='4'/%3E%3Ccircle cx='38' cy='40' r='5' fill='%2300f5ff'/%3E%3Ccircle cx='62' cy='58' r='4' fill='%235ee8d9'/%3E%3Ccircle cx='55' cy='30' r='3' fill='%2367d6ff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<canvas id="bio-bg" class="bio-bg" aria-hidden="true"></canvas>
+
+<div class="page">
+  <header class="site-header">
+    <div class="header-toolbar">
+      <div class="lang-toggle" role="group" data-i18n-aria="aria.language" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="pt">PT</button>
+        <button type="button" class="lang-btn" data-lang="ja">JA</button>
+      </div>
+    </div>
+    <div class="brand">
+      <span class="brand-glow" aria-hidden="true">◐</span>
+      <span class="brand-text">Abyss<span class="brand-accent">Board</span></span>
+    </div>
+    <p class="tagline" data-i18n="brand.tagline">Find the surfboard shape &amp; length built for you — glowing up from the depths.</p>
+  </header>
+
+  <main class="layout">
+    <section class="card input-card" aria-labelledby="input-heading">
+      <div class="card-header">
+        <h2 id="input-heading" data-i18n="input.heading">Tell us about you</h2>
+        <div class="unit-toggle" role="group" data-i18n-aria="aria.units" aria-label="Units">
+          <button type="button" class="unit-btn is-active" data-unit="metric">cm · kg</button>
+          <button type="button" class="unit-btn" data-unit="imperial">in · lb</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label-row">
+          <label for="height-input" data-i18n="field.height">Height</label>
+          <span class="readout" id="height-readout"></span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="height-slider" class="slider" min="120" max="220" value="175" step="1" data-i18n-aria="aria.heightSlider" aria-label="Height slider">
+          <div class="number-wrap">
+            <input type="number" id="height-input" class="number-input" min="100" max="230" value="175" inputmode="decimal">
+            <span class="unit-label" id="height-unit-label">cm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label-row">
+          <label for="weight-input" data-i18n="field.weight">Weight</label>
+          <span class="readout" id="weight-readout"></span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="weight-slider" class="slider" min="30" max="150" value="75" step="1" data-i18n-aria="aria.weightSlider" aria-label="Weight slider">
+          <div class="number-wrap">
+            <input type="number" id="weight-input" class="number-input" min="25" max="180" value="75" inputmode="decimal">
+            <span class="unit-label" id="weight-unit-label">kg</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="group-label" id="label-waveSize" data-i18n="field.waveSize">Wave size you ride most</label>
+        <div class="pill-group" id="group-waveSize" aria-labelledby="label-waveSize"></div>
+      </div>
+
+      <div class="field">
+        <label class="group-label" id="label-style" data-i18n="field.style">Your style</label>
+        <div class="pill-group" id="group-style" aria-labelledby="label-style"></div>
+      </div>
+
+      <div class="field">
+        <label class="group-label" id="label-level" data-i18n="field.level">Your level</label>
+        <div class="pill-group" id="group-level" aria-labelledby="label-level"></div>
+      </div>
+
+      <div class="field">
+        <label class="group-label" id="label-material" data-i18n="field.material">Board material</label>
+        <div class="pill-group" id="group-material" aria-labelledby="label-material"></div>
+      </div>
+
+      <div class="field">
+        <label class="group-label" id="label-fitness" data-i18n="field.fitness">Paddle fitness &amp; how often you surf</label>
+        <div class="pill-group" id="group-fitness" aria-labelledby="label-fitness"></div>
+      </div>
+    </section>
+
+    <section class="results" aria-labelledby="results-heading">
+      <h2 id="results-heading" class="visually-hidden" data-i18n="results.heading">Your recommendation</h2>
+
+      <div class="card volume-card">
+        <span class="volume-label" data-i18n="volume.label">Target volume</span>
+        <span class="volume-value" id="volume-value">—</span>
+        <span class="volume-hint" data-i18n="volume.hint">Litres of foam — the single most important number when picking a board</span>
+      </div>
+
+      <div class="card board-card board-card--primary" id="primary-card"></div>
+
+      <div class="card silhouette-card">
+        <h3 data-i18n="silhouette.heading">Size check: you vs. the board</h3>
+        <div class="silhouette-container" id="silhouette-container"></div>
+        <div class="silhouette-legend">
+          <span class="legend-item"><i class="legend-dot legend-dot--person"></i> <span data-i18n="silhouette.you">You —</span> <span id="silhouette-person-label"></span></span>
+          <span class="legend-item"><i class="legend-dot legend-dot--board"></i> <span data-i18n="silhouette.board">Board (top view) —</span> <span id="silhouette-board-label"></span></span>
+        </div>
+      </div>
+
+      <div class="card board-card board-card--alt" id="alt-card"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p data-i18n="footer.text">Estimates only, based on widely-used surfboard volume and sizing guidelines (Guild-factor volume formula, typical length/width/thickness ratios per board type). Every shaper's outline differs — use this as a starting point and fine-tune with your local surf shop or shaper.</p>
+    <a class="site-credit" href="https://github.com/carlosdiezm" target="_blank" rel="noopener noreferrer">
+      <img class="site-credit-avatar" src="https://github.com/carlosdiezm.png" alt="" width="22" height="22" loading="lazy">
+      <span><span data-i18n="footer.developedBy">Developed by</span> <strong>carlosdiezm</strong></span>
+    </a>
+  </footer>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/boardData.js"></script>
+<script src="js/recommend.js"></script>
+<script src="js/silhouette.js"></script>
+<script src="js/background.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
