@@ -102,6 +102,6 @@ point and fine-tune with your local surf shop or shaper.
 
 <div align="center">
 
-Made with 🩵 by [carlosdiezm](https://github.com/carlosdiezm)
+Made by [carlosdiezm](https://github.com/carlosdiezm)
 
 </div>
