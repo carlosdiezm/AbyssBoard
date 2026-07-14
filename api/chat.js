@@ -147,6 +147,16 @@ function validateRequestBody(body) {
 }
 
 module.exports = async function handler(req, res) {
+  // TEMP DEBUG WRAPPER — remove once the 502 root cause is found. Surfaces the
+  // real error in the response body instead of Vercel's opaque failure page.
+  try {
+    return await handleChat(req, res);
+  } catch (e) {
+    res.status(502).json({ error: "unhandled: " + (e && e.message), stack: e && e.stack });
+  }
+};
+
+async function handleChat(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "method not allowed" });
     return;
@@ -193,14 +203,15 @@ module.exports = async function handler(req, res) {
       temperature: 0.6
     });
   } catch (e) {
-    res.status(502).json({ error: "the shop manager is unavailable right now, please try again" });
+    // TEMP DEBUG: real error message included below the line — remove "debug" once diagnosed.
+    res.status(502).json({ error: "the shop manager is unavailable right now, please try again", debug: e && e.message });
     return;
   }
 
   var choice = completion && completion.choices && completion.choices[0];
   var raw = choice && choice.message && choice.message.content;
   if (typeof raw !== "string") {
-    res.status(502).json({ error: "the shop manager is unavailable right now, please try again" });
+    res.status(502).json({ error: "the shop manager is unavailable right now, please try again", debug: "no content in completion: " + JSON.stringify(completion).slice(0, 500) });
     return;
   }
 
@@ -223,7 +234,7 @@ module.exports = async function handler(req, res) {
     reply: extraction.visibleText || "...",
     recommendation: recommendation
   });
-};
+}
 
 // Exposed for local unit testing only (see scratchpad test scripts) — Vercel
 // just calls module.exports as a function and ignores extra properties on it.
