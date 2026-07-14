@@ -1,0 +1,11 @@
+{
+  "name": "abyssboard",
+  "private": true,
+  "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@huggingface/inference": "^3.0.0"
+  }
+}

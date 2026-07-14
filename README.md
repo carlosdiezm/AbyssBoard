@@ -63,11 +63,14 @@ page reload.
 
 Zero dependencies. Zero build step. Just open `index.html`.
 
-- **Vanilla HTML/CSS/JS** — no framework, no bundler, no `node_modules`.
+- **Vanilla HTML/CSS/JS** — no framework, no bundler, no `node_modules` for the
+  frontend itself.
 - Recommendation engine, board-outline renderer and i18n dictionary are each a
   small, self-contained script in [`js/`](js).
 - A lightweight animated canvas backdrop (`js/background.js`) for the
   bioluminescent-particle vibe — pauses for reduced-motion users and hidden tabs.
+- One small serverless function (`api/chat.js`) powers the optional chat
+  assistant — see [Chat with the shop manager](#-chat-with-the-shop-manager) below.
 
 ```
 Board meassures/
@@ -79,7 +82,11 @@ Board meassures/
 │   ├── recommend.js       # volume + archetype scoring + dimension solver
 │   ├── silhouette.js      # SVG outline renderer (person + board, shared scale)
 │   ├── background.js      # animated canvas backdrop
-│   └── app.js             # DOM wiring, state, event handlers
+│   ├── app.js             # DOM wiring, state, event handlers
+│   └── chat.js            # chat widget UI, calls /api/chat
+├── api/
+│   ├── chat.js            # serverless endpoint: HF call + grounding in recommend.js
+│   └── _rateLimit.js      # best-effort in-memory rate limit
 └── docs/                 # README assets
 ```
 
@@ -92,6 +99,34 @@ No install, no build. Just serve the folder statically:
 npx serve .
 # or simply open index.html directly in a browser
 ```
+
+## 💬 Chat with the shop manager
+
+A floating chat widget (bottom-right) lets you talk through your pick with an
+LLM playing an expert surf-shop-manager persona instead of moving sliders. It
+runs on a **free Hugging Face-hosted model** — no paid API required.
+
+The assistant only chats and gathers your height, weight, wave size, style and
+level; it never invents board numbers itself. Once it has enough info it hands
+those inputs to the exact same `recommend.js` engine the sliders use (run
+server-side, in the same locale you're browsing in), so chat and slider
+results always agree. Hit "Use this recommendation" in the chat to push those
+inputs back into the sliders/silhouette.
+
+### Deploying the chat assistant (Vercel)
+
+1. Get a free access token at [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens).
+2. Deploy this repo to [Vercel](https://vercel.com) (zero-config: it serves the
+   root as static files and auto-detects `api/chat.js` as a serverless function).
+3. In the Vercel project's **Settings → Environment Variables**, add
+   `HF_TOKEN` with your token (Production + Preview + Development). Optionally
+   set `HF_MODEL` to override the default free instruct model.
+4. Redeploy.
+
+For local development, copy `.env.example` to `.env.local`, fill in
+`HF_TOKEN`, and run `vercel dev` (requires the [Vercel CLI](https://vercel.com/docs/cli)).
+Without a deployed/running `api/chat.js`, the rest of the app (sliders,
+silhouette, i18n) works exactly the same — only the chat widget needs it.
 
 ## 📏 How the numbers work
 

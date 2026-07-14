@@ -134,6 +134,21 @@
         query: "{{board}} surfboard",
         mapsQuery: "surf shop",
         disclaimer: "Generic search links, not verified endorsements — availability, price and shipping vary by seller."
+      },
+      chat: {
+        fabLabel: "Chat with the shop manager",
+        heading: "Ask the shop manager",
+        intro: "Tell me about your surfing and I'll help you dial in a board — I'll pull real numbers from the sizing engine, not guesses.",
+        placeholder: "Ask about boards, volume, wave size…",
+        send: "Send",
+        thinking: "Thinking…",
+        error: "Something went wrong reaching the shop manager. Please try again.",
+        rateLimited: "Whoa, one wave at a time — please wait a moment before sending another message.",
+        turnLimit: "That's a full session! Refresh the page to start a fresh chat.",
+        applyRecommendation: "Use this recommendation",
+        applied: "Applied to your results ↑",
+        close: "Close chat",
+        disclaimer: "AI-assisted chat — recommendations are grounded in the same sizing engine as the sliders above."
       }
     },
 
@@ -260,6 +275,21 @@
         query: "tabla de surf {{board}}",
         mapsQuery: "tienda de surf",
         disclaimer: "Enlaces de búsqueda genéricos, no son recomendaciones verificadas — la disponibilidad, el precio y el envío varían según la tienda."
+      },
+      chat: {
+        fabLabel: "Chatea con el encargado",
+        heading: "Pregúntale al encargado",
+        intro: "Cuéntame sobre tu surf y te ayudo a elegir tabla — los números salen del mismo motor de cálculo, no son inventados.",
+        placeholder: "Pregunta sobre tablas, volumen, tamaño de ola…",
+        send: "Enviar",
+        thinking: "Pensando…",
+        error: "Algo salió mal al contactar al encargado. Inténtalo de nuevo.",
+        rateLimited: "Espera un momento antes de enviar otro mensaje.",
+        turnLimit: "¡Sesión completa! Recarga la página para empezar un chat nuevo.",
+        applyRecommendation: "Usar esta recomendación",
+        applied: "Aplicado a tus resultados ↑",
+        close: "Cerrar chat",
+        disclaimer: "Chat asistido por IA — las recomendaciones usan el mismo motor de cálculo que los controles de arriba."
       }
     },
 
@@ -386,6 +416,21 @@
         query: "prancha de surf {{board}}",
         mapsQuery: "loja de surf",
         disclaimer: "Links de busca genéricos, não são recomendações verificadas — disponibilidade, preço e frete variam por loja."
+      },
+      chat: {
+        fabLabel: "Converse com o gerente",
+        heading: "Pergunte ao gerente",
+        intro: "Conte sobre o seu surf e eu te ajudo a escolher a prancha — os números vêm do mesmo motor de cálculo, sem chutes.",
+        placeholder: "Pergunte sobre pranchas, volume, tamanho de onda…",
+        send: "Enviar",
+        thinking: "Pensando…",
+        error: "Algo deu errado ao contatar o gerente. Tente novamente.",
+        rateLimited: "Espere um momento antes de enviar outra mensagem.",
+        turnLimit: "Sessão completa! Atualize a página para começar um novo chat.",
+        applyRecommendation: "Usar esta recomendação",
+        applied: "Aplicado aos seus resultados ↑",
+        close: "Fechar chat",
+        disclaimer: "Chat assistido por IA — as recomendações usam o mesmo motor de cálculo dos controles acima."
       }
     },
 
@@ -512,6 +557,21 @@
         query: "{{board}} サーフボード",
         mapsQuery: "サーフショップ",
         disclaimer: "これらは一般的な検索リンクであり、検証済みのおすすめではありません — 在庫・価格・配送は販売店により異なります。"
+      },
+      chat: {
+        fabLabel: "マネージャーとチャットする",
+        heading: "マネージャーに聞く",
+        intro: "あなたのサーフィンについて教えてください。実際のサイジングエンジンから算出した数値でボードを提案します。",
+        placeholder: "ボード、ボリューム、波のサイズについて質問…",
+        send: "送信",
+        thinking: "考え中…",
+        error: "マネージャーへの接続に問題が発生しました。もう一度お試しください。",
+        rateLimited: "少し待ってから次のメッセージを送ってください。",
+        turnLimit: "セッションが上限に達しました。ページを更新して新しいチャットを始めてください。",
+        applyRecommendation: "このおすすめを使う",
+        applied: "結果に反映されました ↑",
+        close: "チャットを閉じる",
+        disclaimer: "AIによるチャットです — おすすめは上のスライダーと同じサイジングエンジンに基づいています。"
       }
     }
   };

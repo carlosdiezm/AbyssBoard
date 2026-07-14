@@ -266,6 +266,9 @@
     Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-aria]"), function (node) {
       node.setAttribute("aria-label", I18N.t(node.getAttribute("data-i18n-aria")));
     });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-placeholder]"), function (node) {
+      node.setAttribute("placeholder", I18N.t(node.getAttribute("data-i18n-placeholder")));
+    });
   }
 
   function bindLangToggle() {
@@ -285,6 +288,40 @@
       });
     });
   }
+
+  function syncPillActiveStates() {
+    [
+      ["group-waveSize", "waveSize"],
+      ["group-style", "style"],
+      ["group-level", "level"],
+      ["group-material", "material"],
+      ["group-fitness", "fitness"]
+    ].forEach(function (pair) {
+      var container = q(pair[0]);
+      var key = pair[1];
+      if (!container) return;
+      Array.prototype.forEach.call(container.querySelectorAll(".pill"), function (btn) {
+        var active = btn.dataset.value === state[key];
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-checked", String(active));
+      });
+    });
+  }
+
+  function applyRecommendationInputs(inputs) {
+    if (!inputs) return;
+    if (typeof inputs.heightCm === "number") state.heightCm = clampVal(inputs.heightCm, 100, 230);
+    if (typeof inputs.weightKg === "number") state.weightKg = clampVal(inputs.weightKg, 25, 180);
+    ["waveSize", "style", "level", "material", "fitness"].forEach(function (key) {
+      if (inputs[key] != null) state[key] = inputs[key];
+    });
+    syncHeightDisplay();
+    syncWeightDisplay();
+    syncPillActiveStates();
+    update();
+  }
+
+  window.App = { applyRecommendationInputs: applyRecommendationInputs };
 
   function init() {
     el.heightSlider = q("height-slider");
