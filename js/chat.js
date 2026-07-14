@@ -55,27 +55,41 @@
     return wrap;
   }
 
-  function renderRecommendation(recommendation) {
-    var board = recommendation.primary;
-    var wrap = document.createElement("div");
-    wrap.className = "chat-recommendation";
+  function renderBoardBlock(board, badgeKey, targetVolumeL) {
+    var block = document.createElement("div");
+    block.className = "chat-board-block";
+
+    var badge = document.createElement("span");
+    badge.className = "board-badge";
+    badge.textContent = I18N.t(badgeKey);
+    block.appendChild(badge);
 
     var heading = document.createElement("h4");
     heading.textContent = board.name;
-    wrap.appendChild(heading);
+    block.appendChild(heading);
 
     var tagline = document.createElement("p");
     tagline.className = "board-tagline";
     tagline.textContent = board.tagline;
-    wrap.appendChild(tagline);
+    block.appendChild(tagline);
 
     var stats = document.createElement("div");
     stats.className = "board-stats";
     stats.appendChild(statEl(I18N.t("stat.length"), board.lengthFtIn, board.lengthCm + " cm"));
     stats.appendChild(statEl(I18N.t("stat.width"), board.widthInStr + '"', board.widthCm + " cm"));
     stats.appendChild(statEl(I18N.t("stat.thickness"), board.thicknessInStr + '"', board.thicknessCm + " cm"));
-    stats.appendChild(statEl(I18N.t("stat.volume"), board.volumeL + " L", recommendation.targetVolumeL + " L " + I18N.t("volume.label").toLowerCase()));
-    wrap.appendChild(stats);
+    stats.appendChild(statEl(I18N.t("stat.volume"), board.volumeL + " L", targetVolumeL + " L " + I18N.t("volume.label").toLowerCase()));
+    block.appendChild(stats);
+
+    return block;
+  }
+
+  function renderRecommendation(recommendation) {
+    var wrap = document.createElement("div");
+    wrap.className = "chat-recommendation";
+
+    wrap.appendChild(renderBoardBlock(recommendation.primary, "badge.recommended", recommendation.targetVolumeL));
+    wrap.appendChild(renderBoardBlock(recommendation.alternative, "badge.alternative", recommendation.targetVolumeL));
 
     var applyBtn = document.createElement("button");
     applyBtn.type = "button";

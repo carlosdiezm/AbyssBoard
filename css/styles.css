@@ -860,6 +860,11 @@ label, .group-label {
 .chat-recommendation .stat-value {
   font-size: 0.98rem;
 }
+.chat-board-block + .chat-board-block {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-glow);
+}
 .chat-apply-btn {
   margin-top: 10px;
   width: 100%;
