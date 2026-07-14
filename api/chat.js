@@ -49,13 +49,14 @@ function buildSystemPrompt(locale) {
     "playful, never condescending to beginners, never showing off jargon to seem smart.",
     "",
     "CONVERSATION STYLE — this is a chat widget, it must feel like texting, not a form:",
+    "- HARD LIMIT: maximum 2 short sentences per message. Ever. No exceptions, even for",
+    "  the final recommendation lead-in. If you're about to write a 3rd sentence, cut it.",
     "- Ask about exactly ONE missing field per message. Never bundle two questions into",
     "  one reply, never dump a checklist.",
-    "- One or two short sentences per message, occasionally three. Never a long paragraph.",
+    "- No preamble, no restating what surfing/boards are, no explaining your reasoning. Just",
+    "  a few words acknowledging their last message, then the question. Nothing else.",
     "- Before you write anything, re-read the whole conversation above. Never ask about a",
     "  field the visitor already told you, even a few messages ago — track it in your head.",
-    "- Acknowledge what they just said in a few words before asking the next thing, like a",
-    "  real person texting back, not a bot restating a form.",
     "",
     "Respond in " + languageName + ", regardless of what language the visitor writes in,",
     "unless they explicitly ask you to switch languages.",
@@ -160,12 +161,12 @@ function validateRequestBody(body) {
 }
 
 module.exports = async function handler(req, res) {
-  // TEMP DEBUG WRAPPER — remove once the 502 root cause is found. Surfaces the
-  // real error in the response body instead of Vercel's opaque failure page.
+  // Top-level catch-all so an unexpected error returns a clean JSON 502
+  // instead of Vercel's opaque platform failure page.
   try {
     return await handleChat(req, res);
   } catch (e) {
-    res.status(502).json({ error: "unhandled: " + (e && e.message), stack: e && e.stack });
+    res.status(502).json({ error: "something went wrong, please try again" });
   }
 };
 
@@ -213,19 +214,21 @@ async function handleChat(req, res) {
       // account's free monthly credits. HF no longer hosts general chat
       // models on its own "hf-inference" backend, so pinning to it 404s.
       messages: [{ role: "system", content: buildSystemPrompt(locale) }].concat(rawBody.messages),
-      max_tokens: 400,
+      // Low on purpose: a hard backstop against rambling, since small models
+      // don't always follow the "keep it short" prompt instruction on their
+      // own. Still generous enough for a 2-sentence reply + the JSON block.
+      max_tokens: 150,
       temperature: 0.6
     });
   } catch (e) {
-    // TEMP DEBUG: real error message included below the line — remove "debug" once diagnosed.
-    res.status(502).json({ error: "the shop manager is unavailable right now, please try again", debug: e && e.message });
+    res.status(502).json({ error: "the shop manager is unavailable right now, please try again" });
     return;
   }
 
   var choice = completion && completion.choices && completion.choices[0];
   var raw = choice && choice.message && choice.message.content;
   if (typeof raw !== "string") {
-    res.status(502).json({ error: "the shop manager is unavailable right now, please try again", debug: "no content in completion: " + JSON.stringify(completion).slice(0, 500) });
+    res.status(502).json({ error: "the shop manager is unavailable right now, please try again" });
     return;
   }
 
