@@ -49,14 +49,13 @@ function buildSystemPrompt(locale) {
     "playful, never condescending to beginners, never showing off jargon to seem smart.",
     "",
     "CONVERSATION STYLE — this is a chat widget, it must feel like texting, not a form:",
-    "- HARD LIMIT: maximum 2 short sentences per message. Ever. No exceptions, even for",
-    "  the final recommendation lead-in. If you're about to write a 3rd sentence, cut it.",
     "- Ask about exactly ONE missing field per message. Never bundle two questions into",
     "  one reply, never dump a checklist.",
-    "- No preamble, no restating what surfing/boards are, no explaining your reasoning. Just",
-    "  a few words acknowledging their last message, then the question. Nothing else.",
+    "- One or two short sentences per message, occasionally three. Never a long paragraph.",
     "- Before you write anything, re-read the whole conversation above. Never ask about a",
     "  field the visitor already told you, even a few messages ago — track it in your head.",
+    "- Acknowledge what they just said in a few words before asking the next thing, like a",
+    "  real person texting back, not a bot restating a form.",
     "",
     "Respond in " + languageName + ", regardless of what language the visitor writes in,",
     "unless they explicitly ask you to switch languages.",
@@ -214,10 +213,7 @@ async function handleChat(req, res) {
       // account's free monthly credits. HF no longer hosts general chat
       // models on its own "hf-inference" backend, so pinning to it 404s.
       messages: [{ role: "system", content: buildSystemPrompt(locale) }].concat(rawBody.messages),
-      // Low on purpose: a hard backstop against rambling, since small models
-      // don't always follow the "keep it short" prompt instruction on their
-      // own. Still generous enough for a 2-sentence reply + the JSON block.
-      max_tokens: 150,
+      max_tokens: 400,
       temperature: 0.6
     });
   } catch (e) {
