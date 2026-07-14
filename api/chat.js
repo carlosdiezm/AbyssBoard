@@ -11,9 +11,12 @@ var BD = require("../js/boardData.js");
 var I18N = require("../js/i18n.js");
 var RateLimit = require("./_rateLimit.js");
 
-// Qwen2.5 is ungated (no license click-through required, unlike Llama), so a
-// fresh HF_TOKEN works immediately without extra account setup.
-var MODEL = process.env.HF_MODEL || "Qwen/Qwen2.5-7B-Instruct";
+// Ungated (no license click-through) and confirmed to have a live Inference
+// Provider (featherless-ai) as of this writing. HF's free-tier model/provider
+// availability shifts over time - if this 502s again, check
+// https://huggingface.co/api/models/{model}?expand[]=inferenceProviderMapping
+// for a model with at least one "status":"live" entry, and swap via HF_MODEL.
+var MODEL = process.env.HF_MODEL || "microsoft/Phi-3-mini-4k-instruct";
 var MAX_MESSAGES = 40;
 var MAX_MESSAGE_CHARS = 4000;
 var MAX_BODY_BYTES = 32 * 1024;
@@ -195,9 +198,10 @@ async function handleChat(req, res) {
   try {
     completion = await hf.chatCompletion({
       model: MODEL,
-      // Pinned to HF's own free-tier serverless inference — "auto" (the SDK
-      // default) can route to a third-party provider with different pricing.
-      provider: "hf-inference",
+      // No provider pinned - "auto" (the SDK default) routes to whichever
+      // Inference Provider actually serves this model right now, under the
+      // account's free monthly credits. HF no longer hosts general chat
+      // models on its own "hf-inference" backend, so pinning to it 404s.
       messages: [{ role: "system", content: buildSystemPrompt(locale) }].concat(rawBody.messages),
       max_tokens: 400,
       temperature: 0.6
