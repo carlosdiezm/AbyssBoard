@@ -11,7 +11,9 @@ var BD = require("../js/boardData.js");
 var I18N = require("../js/i18n.js");
 var RateLimit = require("./_rateLimit.js");
 
-var MODEL = process.env.HF_MODEL || "meta-llama/Llama-3.1-8B-Instruct";
+// Qwen2.5 is ungated (no license click-through required, unlike Llama), so a
+// fresh HF_TOKEN works immediately without extra account setup.
+var MODEL = process.env.HF_MODEL || "Qwen/Qwen2.5-7B-Instruct";
 var MAX_MESSAGES = 40;
 var MAX_MESSAGE_CHARS = 4000;
 var MAX_BODY_BYTES = 32 * 1024;
